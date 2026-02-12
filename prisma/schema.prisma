@@ -11,12 +11,13 @@ datasource db {
 model User {
   id         String   @id @default(uuid())
   name       String
+  email      String   @unique
   avatar_url String?
   banner_url String?
   synthesis  String?
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  account    Account?
+  account    Account[]
 
   sessions Session[]
   posts    Post[]
@@ -60,7 +61,7 @@ model Comment {
 
 model Account {
   id                  String  @id @default(cuid())
-  user_id             String  @unique
+  user_id             String
   type                String
   provider            String
   provider_account_id String

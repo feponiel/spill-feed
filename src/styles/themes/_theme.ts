@@ -46,6 +46,8 @@ export interface Theme {
     gray700: string
     gray800: string
     gray900: string
+
+    red500: string
   }
 
   space: {

@@ -1,0 +1,26 @@
+import * as Dropdown from "@radix-ui/react-dropdown-menu"
+import { DropdownContent } from "./styles"
+import { ReactElement, ReactNode } from "react"
+
+interface DropdownMenuProps {
+  trigger: ReactElement
+  isOpen: boolean
+  onToggleOpen: (open: boolean) => void
+  children?: ReactNode
+}
+
+export function DropdownMenu({ trigger, isOpen, onToggleOpen, children }: DropdownMenuProps) {
+  return (
+    <Dropdown.Root open={ isOpen } onOpenChange={ onToggleOpen }>
+      <Dropdown.Trigger asChild>
+        { trigger }
+      </Dropdown.Trigger>
+
+      <Dropdown.Portal>
+        <DropdownContent>
+          { children }
+        </DropdownContent>
+      </Dropdown.Portal>
+    </Dropdown.Root>
+  )
+}

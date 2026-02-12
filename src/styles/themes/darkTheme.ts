@@ -48,6 +48,8 @@ export const darkTheme: Theme = {
     gray700: '#29292e',
     gray800: '#202024',
     gray900: '#121214',
+
+    red500: '#f75a78',
   },
 
   space: {

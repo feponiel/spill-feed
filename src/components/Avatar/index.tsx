@@ -1,13 +1,15 @@
 import { ImgHTMLAttributes } from "react";
 import { AvatarPicture } from "./styles";
+import unknownUser from "@/../public/unknown-user.png"
 
 interface AvatarProps extends ImgHTMLAttributes<HTMLImageElement> {
-  url: string
-  hasBorder: boolean
+  username: string
+  url?: string
+  hasBorder?: boolean
 }
 
-export function Avatar({ url, hasBorder = true }: AvatarProps) {
+export function Avatar({ username, url = unknownUser.src, hasBorder = true }: AvatarProps) {
   return (
-    <AvatarPicture src={url} hasBorder={hasBorder}></AvatarPicture>
+    <AvatarPicture src={url} $hasBorder={hasBorder} alt={ `${username}'s avatar picture` } width={64} height={64}></AvatarPicture>
   )
 }

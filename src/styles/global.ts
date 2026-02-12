@@ -11,8 +11,8 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     body {
-      background-color: ${theme.colors.white};
-      color: ${theme.colors.black};
+      background-color: ${theme.colors.gray900};
+      color: ${theme.colors.gray300};
       -webkit-font-smoothing: antialiased;
     }
 
@@ -70,22 +70,22 @@ export const Title = styled.h1.attrs<TitleProps>(({ $level }) => ({
     font-family: ${theme.fonts.default};
     font-weight: ${theme.fontWeights.medium};
     line-height: 1.37;
-    color: ${theme.colors.gray400};
+    color: ${theme.colors.gray100};
 
     // VARIANTS
     ${$size === 'xs' &&
     css`
-      font-size: ${theme.fontSizes.sm};
+      font-size: ${theme.fontSizes.md};
     `}
 
     ${$size === 'sm' &&
     css`
-      font-size: ${theme.fontSizes.md};
+      font-size: ${theme.fontSizes.xl};
     `}
 
     ${$size === 'md' &&
     css`
-      font-size: ${theme.fontSizes.xl};
+      font-size: ${theme.fontSizes['2xl']};
     `}
 
     ${$size === 'lg' &&
