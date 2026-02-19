@@ -13,7 +13,6 @@ export async function middleware(req: NextRequest) {
   })
 
   const { pathname } = req.nextUrl
-  console.log("token " + token)
   const isAuthenticated = !!token
 
   const isPublicRoute = publicRoutes.some(route =>
