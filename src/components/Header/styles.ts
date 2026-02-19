@@ -7,6 +7,6 @@ export const StyledHeader = styled.header`
     display: flex;
     justify-content: center;
     padding: ${theme.space[5]} 0;
-    background: ${theme.colors.gray800};
+    background: ${theme.colors.shade800};
   `}
 `

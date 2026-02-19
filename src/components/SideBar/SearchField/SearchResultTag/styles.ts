@@ -1,0 +1,29 @@
+import Link from "next/link";
+import styled, { css } from "styled-components";
+
+export const StyledSearchResultTag = styled.li``
+
+export const SearchResultTagLink = styled(Link)`
+  ${({ theme }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: ${theme.space[3]};
+    padding: ${theme.space[3]} ${theme.space[1]};
+    text-decoration: none;
+
+    strong {
+      display: block;
+      line-height: ${theme.lineHeights.base};
+      font-size: ${theme.fontSizes.sm};
+      color: ${theme.colors.shade100};
+    }
+
+    span {
+      display: block;
+      line-height: ${theme.lineHeights.base};
+      font-size: ${theme.fontSizes.xs};
+      color: ${theme.colors.shade400};
+    }
+  `}
+`

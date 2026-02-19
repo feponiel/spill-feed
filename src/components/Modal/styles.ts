@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 export const DialogOverlay = styled(Dialog.Overlay)`
   width: 100vw;
   height: 100vh;
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   background-color: rgba(0, 0, 0, .4);
@@ -16,8 +16,8 @@ export const DialogContent = styled(Dialog.Content)`
     flex-direction: column;
     gap: ${theme.space[4]};
     padding: ${theme.space[4]};
-    background: ${theme.colors.gray800};
-    border: 1px solid ${theme.colors.gray600};
+    background: ${theme.colors.shade800};
+    border: 1px solid ${theme.colors.shade600};
     border-radius: ${theme.radius.md};
     position: fixed;
     top: 50%;
@@ -36,9 +36,9 @@ export const DialogContent = styled(Dialog.Content)`
 export const DialogClose = styled(Dialog.Close)`
   ${({ theme }) => css`
     padding: ${theme.space[1]};
-    color: ${theme.colors.gray300};
+    color: ${theme.colors.shade300};
     background: transparent;
-    border: 1px solid ${theme.colors.gray300};
+    border: 1px solid ${theme.colors.shade300};
     border-radius: ${theme.radius.sm};
     line-height: 0;
     cursor: pointer;

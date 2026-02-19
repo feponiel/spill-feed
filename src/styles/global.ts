@@ -11,8 +11,8 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     body {
-      background-color: ${theme.colors.gray900};
-      color: ${theme.colors.gray300};
+      background-color: ${theme.colors.shade900};
+      color: ${theme.colors.shade300};
       -webkit-font-smoothing: antialiased;
     }
 
@@ -27,12 +27,12 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     ::-webkit-scrollbar-track {
-      background: ${theme.colors.gray100};
+      background: ${theme.colors.shade100};
     }
 
     ::-webkit-scrollbar-thumb {
       ${({ theme }) => css`
-        background: ${theme.colors.gray400};
+        background: ${theme.colors.accentColor};
         border-radius: ${theme.radius.xs};
       `}
     }
@@ -70,7 +70,7 @@ export const Title = styled.h1.attrs<TitleProps>(({ $level }) => ({
     font-family: ${theme.fonts.default};
     font-weight: ${theme.fontWeights.medium};
     line-height: 1.37;
-    color: ${theme.colors.gray100};
+    color: ${theme.colors.shade100};
 
     // VARIANTS
     ${$size === 'xs' &&

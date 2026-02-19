@@ -1,6 +1,7 @@
 import { LockIcon, WarningCircleIcon } from "@phosphor-icons/react"
 import { StyledFormField, TooltipContent, ValidationErrorMessage } from "./styles"
 import * as Tooltip from "@radix-ui/react-tooltip"
+import { ChangeEvent, InvalidEvent } from "react"
 
 interface FormFieldProps {
   name: string
@@ -12,6 +13,9 @@ interface FormFieldProps {
   hasValidationError?: boolean
   validationErrorMessage?: string
   defaultValue?: string
+  realtimeValue?: string
+  onChange?: (event: ChangeEvent<any, Element>) => void
+  required?: boolean
 }
 
 export function FormField({
@@ -24,6 +28,9 @@ export function FormField({
   hasValidationError = false,
   validationErrorMessage="This field is incorrect",
   defaultValue,
+  realtimeValue,
+  onChange,
+  required
 }: FormFieldProps) {
   return (
     <StyledFormField>
@@ -47,8 +54,8 @@ export function FormField({
           ) }
         </span>
       )}
-      { type == 'input' && <input type="text" name={name} placeholder={placeholder} defaultValue={defaultValue} disabled={isDisabled} /> }
-      { type == 'textarea' && <textarea name={name} placeholder={placeholder} defaultValue={defaultValue} disabled={isDisabled} /> }
+      { type == 'input' && <input type="text" name={name} placeholder={placeholder} defaultValue={defaultValue} value={realtimeValue} onChange={ onChange } required={ required } disabled={isDisabled} /> }
+      { type == 'textarea' && <textarea name={name} placeholder={placeholder} defaultValue={defaultValue} value={realtimeValue} onChange={ onChange } required={ required } disabled={isDisabled} /> }
 
       { hasValidationError && (
         <ValidationErrorMessage>

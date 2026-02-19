@@ -14,18 +14,18 @@ export const StyledFormField = styled.label`
 
     > input,
     > textarea {
-      color: ${theme.colors.gray100};
+      color: ${theme.colors.shade100};
       padding: 7px;
-      background: ${theme.colors.gray900};
-      border: 1px solid ${theme.colors.gray700};
+      background: ${theme.colors.shade900};
+      border: 1px solid ${theme.colors.shade700};
       border-radius: ${theme.radius.sm};
       
       &:focus-within {
-        outline: 1px solid ${theme.colors.accentColorDark};
+        outline: 1px solid ${theme.colors.accentColor};
       }
 
       &:disabled {
-        color: ${theme.colors.gray600};
+        color: ${theme.colors.shade600};
         cursor: not-allowed;
       }
     }
@@ -42,17 +42,17 @@ export const StyledFormField = styled.label`
 
 export const TooltipContent = styled(Tooltip.Content)`
   ${({ theme }) => css`
-    background: ${theme.colors.gray900};
+    background: ${theme.colors.shade900};
     padding: ${theme.space[1]} ${theme.space[2]};
     text-align: center;
     font-size: ${theme.fontSizes.sm};
-    border: 1px solid ${theme.colors.gray700};
+    border: 1px solid ${theme.colors.shade700};
     border-radius: ${theme.radius.sm};
     z-index: 9999;
 
     .TooltipArrow {
       width: 9px;
-      fill: ${theme.colors.gray900};
+      fill: ${theme.colors.shade900};
       stroke-width: 3;
     }
   `}

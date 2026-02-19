@@ -2,13 +2,15 @@
 
 import { formatDate } from "@/utils/formatDate"
 import { Avatar } from "../Avatar"
-import { Info, CommentForm, CommentList, Content, PostDate, InfoDisplay, StyledPost, SubmitCommentButton, EditionWarn, PostOptionsMenuButton } from "./styles"
-import { ChangeEvent, InvalidEvent, SubmitEvent, useState } from "react"
+import { Info, Content, PostDate, InfoDisplay, StyledPost, EditionWarn, PostOptionsMenuButton } from "./styles"
+import { useState } from "react"
 import { ClockIcon, DotsThreeIcon, PencilIcon } from "@phosphor-icons/react"
 import { DeletePostModal } from "./DeletePostModal"
 import { PostOptionsMenu } from "./PostOptionsMenu"
-import { Comment } from "./Comment"
 import { EditPostModal } from "./EditPostModal"
+import * as Collapsible from "@radix-ui/react-collapsible"
+import { EngagementPanel } from "./EngagementPanel"
+import { CommentSection } from "./CommentsSection"
 
 interface Author {
   name: string
@@ -19,19 +21,20 @@ interface Author {
 interface PostProps {
   author: Author
   content: string
+  likesAmount: number
   publishedAt: Date
   updatedAt: Date
 }
 
-export function Post({ author, content, publishedAt, updatedAt }: PostProps) {
-  const [ newCommentContent, setNewCommentContent ] = useState("")
+export function Post({ author, content, likesAmount, publishedAt, updatedAt }: PostProps) {
+  const [postLikesAmount, setPostLikesAmount] = useState(likesAmount)
+  const [isCommentSectionOpen, setCommentSectionOpen] = useState(false)
+  const [isPostLiked, setPostLiked] = useState(false) // it'll come from a table in the db that makes the relation between the user id and the post id (Post Likes)
   const [isPostOptionsMenuOpen, setPostOptionsMenuOpen] = useState(false)
   const [isEditPostModalOpen, setEditPostModalOpen] = useState(false)
   const [isDeletePostModalOpen, setDeletePostModalOpen] = useState(false)
 
-  const isNewCommentContentEmpty = newCommentContent.length < 1
-
-  const isEdited = true //updatedAt > publishedAt
+  const isEdited = false //updatedAt > publishedAt
 
   const {
     formatedDate: postDateFormated,
@@ -42,24 +45,14 @@ export function Post({ author, content, publishedAt, updatedAt }: PostProps) {
     setDeletePostModalOpen(false)
   }
 
-  function handleChangeCommentText(event: ChangeEvent<HTMLTextAreaElement>) {
-    event.target.setCustomValidity("")
-
-    setNewCommentContent(event.target.value)
-  }
-
-  function handleNewCommentInvalid(event: InvalidEvent<HTMLTextAreaElement>) {
-    event.currentTarget.setCustomValidity("This field is required!")
-  }
-
-  function handleCreateNewComment(event: SubmitEvent) {
-    event.preventDefault()
-
-    setNewCommentContent("")
-  }
-
-  function handleDeleteComment() {
-    
+  function handleLikePost() {
+    if (isPostLiked) {
+      setPostLikesAmount(prev => prev - 1)
+      setPostLiked(false)
+    } else {
+      setPostLikesAmount(prev => prev + 1)
+      setPostLiked(true)
+    }
   }
 
   return (
@@ -104,36 +97,11 @@ export function Post({ author, content, publishedAt, updatedAt }: PostProps) {
         { content }
       </Content>
 
-      <CommentForm onSubmit={ (e) => handleCreateNewComment(e) }>
-        <label>
-          <span>Leave your comment</span>
+      <Collapsible.Root open={ isCommentSectionOpen } onOpenChange={ setCommentSectionOpen }>
+        <EngagementPanel isPostLiked={ isPostLiked } likesAmount={ postLikesAmount } onLikePost={ handleLikePost } />
 
-          <textarea
-            placeholder="Write something cool..."
-            name="newCommentContent"
-            value={ newCommentContent }
-            onChange={ handleChangeCommentText }
-            onInvalid={ handleNewCommentInvalid }
-            required
-          />
-        </label>
-
-        <footer>
-          <SubmitCommentButton type="submit" disabled={ isNewCommentContentEmpty }>Submit</SubmitCommentButton>
-        </footer>
-      </CommentForm>
-
-      <CommentList>
-        <Comment
-          id="1"
-          author={ { id: "1", name: "Paulo Archanjo", email: "paulo@archanjo.com", synthesis: "Data Analyst", created_at: new Date(), avatar_url: "https://github.com/pauloarchanjo.png", updated_at: new Date(), banner_url: "https://github.com/diego3g.png"  } }
-          content="Not really."
-          createdAt={new Date()}
-          updatedAt={new Date()}
-          applaudAmount={12}
-          onApplaud={ () => console.log("Applauded!") }
-        />
-      </CommentList>
+        <CommentSection />
+      </Collapsible.Root>
 
       <EditPostModal defaultPostContentValue={ content } isOpen={ isEditPostModalOpen } handleToggleOpen={ setEditPostModalOpen } />
       <DeletePostModal isOpen={ isDeletePostModalOpen } handleToggleModal={ () => setDeletePostModalOpen(false) } />

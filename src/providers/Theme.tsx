@@ -1,20 +1,20 @@
-'use client'
+"use client"
 
+import { ThemeContextProvider, ThemeType } from '@/contexts/ThemeContext'
 import { GlobalStyle } from '@/styles/global'
-import { darkTheme } from '@/styles/themes/darkTheme'
 import { ReactNode } from 'react'
-import { ThemeProvider } from 'styled-components'
 
 interface ThemeProps {
+  initialTheme: ThemeType
   children: ReactNode
 }
 
-export function Theme({ children }: ThemeProps) {
+export function Theme({ initialTheme, children }: ThemeProps) {
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeContextProvider initialTheme={initialTheme}>
       {children}
 
       <GlobalStyle />
-    </ThemeProvider>
+    </ThemeContextProvider>
   )
 }

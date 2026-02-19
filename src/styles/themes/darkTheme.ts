@@ -1,6 +1,8 @@
 import { Theme } from './_theme'
 
 export const darkTheme: Theme = {
+  name: "dark",
+
   defaults: {
     headerHeight: '75px',
   },
@@ -38,16 +40,17 @@ export const darkTheme: Theme = {
     white: '#ffffff',
     black: '#121212',
 
-    accentColor: '#00b37e',
-    accentColorDark: '#00875f',
+    accentColorLight: '#f5ebc8',
+    accentColor: '#c9b458',
+    accentColorDark: '#8e7f3a',
 
-    gray100: '#e1e1e6',
-    gray300: '#c4c4cc',
-    gray400: '#8d8d99',
-    gray600: '#323238',
-    gray700: '#29292e',
-    gray800: '#202024',
-    gray900: '#121214',
+    shade100: '#f4f4f5',
+    shade300: '#b4b4be',
+    shade400: '#8f8f99',
+    shade600: '#242429',
+    shade700: '#1f1f23',
+    shade800: '#18181b',
+    shade900: '#0b0b0d',
 
     red500: '#f75a78',
   },

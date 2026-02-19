@@ -6,8 +6,8 @@ export const DropdownContent = styled(DropdownMenuContent)`
     display: flex;
     flex-direction: column;
     width: 200px;
-    background: ${theme.colors.gray900};
-    border: 1px solid ${theme.colors.gray700};
+    background: ${theme.colors.shade900};
+    border: 1px solid ${theme.colors.shade700};
     border-radius: ${theme.radius.md};
     overflow: hidden;
 
@@ -17,14 +17,18 @@ export const DropdownContent = styled(DropdownMenuContent)`
       gap: ${theme.space[2]};
       padding: ${theme.space[3]} ${theme.space[2]};
       font-size: ${theme.fontSizes.sm};
-      color: ${theme.colors.gray100};
+      color: ${theme.colors.shade100};
       cursor: pointer;
       outline: none;
 
       &:hover,
       &:focus-within {
         color: ${theme.colors.white};
-        background: ${theme.colors.accentColorDark};
+        background: ${theme.colors.accentColor};
+      }
+
+      svg {
+        font-size: ${theme.fontSizes.xl};
       }
     }
   `}

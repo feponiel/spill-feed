@@ -23,7 +23,7 @@ export const StyledLoadingWheel = styled.div<LoadingWheelProps>`
 
     border-radius: ${theme.radius.full};
 
-    border: 3px solid ${theme.colors.gray400};
+    border: 3px solid ${theme.colors.shade400};
     border-top: 3px solid ${theme.colors.accentColor};
 
     animation: ${spin} 0.8s linear infinite;

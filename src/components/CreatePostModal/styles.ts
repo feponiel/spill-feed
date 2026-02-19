@@ -16,7 +16,7 @@ export const CreatePostModalForm = styled.form`
       padding: ${theme.space[4]} ${theme.space[6]};
       font-weight: bold;
       color: ${theme.colors.white};
-      background: ${theme.colors.accentColorDark};
+      background: ${theme.colors.accentColor};
       border: none;
       border-radius: ${theme.radius.md};
       cursor: pointer;

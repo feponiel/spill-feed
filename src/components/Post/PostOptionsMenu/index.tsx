@@ -15,12 +15,12 @@ export function PostOptionsMenu({ trigger, isOpen, handleToggleMenu, handleChoos
   return (
     <DropdownMenu trigger={ trigger } isOpen={ isOpen } onToggleOpen={ handleToggleMenu }>
       <Dropdown.Item onClick={ handleChooseEditOption }>
-        <PencilIcon size={20} />
+        <PencilIcon />
         Edit Post
       </Dropdown.Item>
 
       <Dropdown.Item onClick={ handleChooseDeleteOption }>
-        <TrashIcon size={20} />
+        <TrashIcon />
         Delete Post
       </Dropdown.Item>
     </DropdownMenu>
