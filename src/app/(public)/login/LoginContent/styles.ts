@@ -29,7 +29,7 @@ export const GithubAuthButton = styled.button`
       #0a0a0a 100%
     );
     border: 1px solid ${theme.colors.shade600};
-    color: ${theme.colors.shade300};
+    color: ${theme.name == "light" ? theme.colors.shade800 : theme.colors.shade300};
     font-weight: ${theme.fontWeights.bold};
     font-size: ${theme.fontSizes.lg};
     border-radius: ${theme.radius.md};
