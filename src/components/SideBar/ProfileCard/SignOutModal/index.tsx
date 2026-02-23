@@ -1,4 +1,5 @@
 import { ActionConfirmModal } from "@/components/ActionConfirmModal"
+import { signOut } from "next-auth/react"
 
 interface SignOutModalProps {
   isOpen: boolean
@@ -7,7 +8,9 @@ interface SignOutModalProps {
 
 export function SignOutModal({ isOpen, handleToggleModal }: SignOutModalProps) {
   function handleSignOut() {
-
+    signOut({
+      callbackUrl: "/login"
+    })
   }
 
   return (
