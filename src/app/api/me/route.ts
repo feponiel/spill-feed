@@ -43,6 +43,6 @@ export async function DELETE() {
     }
   })
 
-  return NextResponse.json(null, { status: 200 })
+  return NextResponse.json(null, { status: 204 })
 }
 
