@@ -1,4 +1,6 @@
 import { ActionConfirmModal } from "@/components/ActionConfirmModal"
+import { api } from "@/lib/axios"
+import { signOut } from "next-auth/react"
 
 interface DeleteAccountModalProps {
   isOpen: boolean
@@ -6,8 +8,12 @@ interface DeleteAccountModalProps {
 }
 
 export function DeleteAccountModal({ isOpen, handleToggleModal }: DeleteAccountModalProps) {
-  function handleDeleteAccount() {
+  async function handleDeleteAccount() {
+    await api.delete("/me")
 
+    signOut({
+      callbackUrl: "/login"
+    })
   }
 
   return (

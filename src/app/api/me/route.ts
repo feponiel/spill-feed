@@ -29,3 +29,20 @@ export async function GET() {
     created_at: profile.created_at,
   })
 }
+
+export async function DELETE() {
+  const session = await getServerSession(authOptions)
+  
+  if (!session?.user?.id) {
+    return NextResponse.json(null, { status: 401 })
+  }
+
+  await prisma.user.delete({
+    where: {
+      id: session.user.id
+    }
+  })
+
+  return NextResponse.json(null, { status: 200 })
+}
+
