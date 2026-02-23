@@ -5,5 +5,8 @@ export const StyledSideBar = styled.aside`
     display: flex;
     flex-direction: column;
     gap: ${theme.space[4]};
+    position: sticky;
+    top: calc(${theme.space[8]} + ${theme.defaults.headerHeight});
+    left: 0;
   `}
 `
