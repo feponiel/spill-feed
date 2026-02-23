@@ -5,8 +5,12 @@ import styled, { css } from "styled-components";
 export const StyledHeader = styled.header`
   ${({ theme }) => css`
     display: flex;
+    align-items: center;
     justify-content: center;
-    padding: ${theme.space[5]} 0;
+    width: 100%;
+    height: ${theme.defaults.headerHeight};
+    position: fixed;
     background: ${theme.colors.shade800};
+    z-index: 1;
   `}
 `

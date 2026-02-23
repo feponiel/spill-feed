@@ -9,7 +9,7 @@ export const Container = styled.div`
     grid-template-columns: 260px 1fr;
     align-items: flex-start;
     gap: ${theme.space[8]};
-    margin: ${theme.space[8]} auto;
+    margin: calc(${theme.space[8]} + ${theme.defaults.headerHeight}) auto;
     padding: 0 ${theme.space[4]};
   `}
 `

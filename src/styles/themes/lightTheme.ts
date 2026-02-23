@@ -4,7 +4,7 @@ export const lightTheme: Theme = {
   name: "light",
 
   defaults: {
-    headerHeight: '75px',
+    headerHeight: '70px',
   },
 
   fonts: {

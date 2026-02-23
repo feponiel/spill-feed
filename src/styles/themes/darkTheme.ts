@@ -4,7 +4,7 @@ export const darkTheme: Theme = {
   name: "dark",
 
   defaults: {
-    headerHeight: '75px',
+    headerHeight: '70px',
   },
 
   fonts: {
