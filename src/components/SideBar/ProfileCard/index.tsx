@@ -6,8 +6,7 @@ import { Banner, EditProfileButton, ProfileDisplay, ProfilePresentation, Profile
 import { useAuthUser } from "@/hooks/useAuthUser";
 import { LoadingWheel } from "../../LoadingWheel";
 import * as Dialog from "@radix-ui/react-dialog"
-import { useState } from "react";
-import Image from "next/image";
+import { useEffect, useState } from "react";
 import { EditProfileModal } from "./EditProfileModal";
 import { SettingsMenu } from "./SettingsMenu";
 import { DeleteAccountModal } from "./DeleteAccountModal";
@@ -21,6 +20,15 @@ export function ProfileCard() {
   const [isSignOutModalOpen, setSignOutModalOpen] = useState(false)
   const [isDeleteAccountModalOpen, setDeleteAccountModalOpen] = useState(false)
   const [isSettingsMenuOpen, setSettingsMenuOpen] = useState(false)
+  const [synthesis, setSynteshis] = useState(authUser?.synthesis)
+  const [bannerPicture, setBannerPicture] = useState(authUser?.banner_url)
+
+  useEffect(() => {
+    if (authUser) {
+      setSynteshis(authUser.synthesis)
+      setBannerPicture(authUser.banner_url)
+    }
+  }, [authUser])
 
   if (isLoading || !authUser) {
     return (
@@ -33,9 +41,7 @@ export function ProfileCard() {
   return (
     <StyledProfileCard>
       <header>
-        <Banner>
-          { authUser.banner_url && <Image src={ authUser.banner_url } alt={`${ authUser.name }'s banner image`} /> }
-        </Banner>
+        <Banner style={ { backgroundImage: `url(${bannerPicture})` } }></Banner>
       </header>
 
       <ProfileDisplay>
@@ -44,7 +50,7 @@ export function ProfileCard() {
         <ProfileSummary>
           <ProfilePresentation>
             <strong>{ authUser.name }</strong>
-            <span>{ authUser.synthesis }</span>
+            <span>{ synthesis }</span>
           </ProfilePresentation>
 
           <Dialog.Root open={ isEditProfileModalOpen } onOpenChange={ setEditProfileModalOpen }>
@@ -76,7 +82,7 @@ export function ProfileCard() {
         />
       </footer>
 
-      <EditProfileModal userInfo={ authUser } isOpen={ isEditProfileModalOpen } handleToggleModal={ setEditProfileModalOpen } />
+      <EditProfileModal userInfo={ authUser } isOpen={ isEditProfileModalOpen } handleToggleModal={ setEditProfileModalOpen } setSynthesis={setSynteshis} setBannerPicture={setBannerPicture} />
       <SignOutModal isOpen={ isSignOutModalOpen } handleToggleModal={ setSignOutModalOpen } />
       <DeleteAccountModal isOpen={ isDeleteAccountModalOpen } handleToggleModal={ setDeleteAccountModalOpen } />
     </StyledProfileCard>

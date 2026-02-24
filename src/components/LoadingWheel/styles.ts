@@ -17,14 +17,21 @@ const wheelSizes = {
 }
 
 export const StyledLoadingWheel = styled.div<LoadingWheelProps>`
-  ${({ theme, size }) => css`
-    width: ${wheelSizes[size]};
-    height: ${wheelSizes[size]};
+  ${({ theme, size, color }) => css`
+    width: ${wheelSizes[size!]};
+    height: ${wheelSizes[size!]};
 
     border-radius: ${theme.radius.full};
 
-    border: 3px solid ${theme.colors.shade400};
-    border-top: 3px solid ${theme.colors.accentColor};
+    ${color == "default" && css`
+      border: 3px solid ${theme.colors.shade400};
+      border-top: 3px solid ${theme.colors.accentColor};
+    `}
+
+    ${color == "white" && css`
+      border: 3px solid ${theme.colors.shade400};
+      border-top: 3px solid ${theme.colors.white};
+    `}
 
     animation: ${spin} 0.8s linear infinite;
   `}

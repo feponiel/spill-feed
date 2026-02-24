@@ -11,8 +11,11 @@ export const EditProfileModalForm = styled.form`
     }
 
     button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 52px;
       margin-top: ${theme.space[4]};
-      padding: ${theme.space[4]} ${theme.space[6]};
       font-weight: bold;
       color: ${theme.colors.white};
       background: ${theme.colors.accentColor};
@@ -21,13 +24,8 @@ export const EditProfileModalForm = styled.form`
       cursor: pointer;
       transition: background-color .1s;
 
-      &:disabled {
-        opacity: .7;
-        cursor: not-allowed;
-      }
-
-      &:not(:disabled):hover {
-        background: ${theme.colors.accentColor};
+      &:hover {
+        background: ${theme.colors.accentColorDark};
       }
     }
   `}

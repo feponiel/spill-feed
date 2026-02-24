@@ -34,7 +34,9 @@ export const Banner = styled.div`
     width: 100%;
     height: 72px;
     background-color: ${theme.colors.shade300};
-    object-fit: cover;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
   `}
 `
 
