@@ -19,9 +19,11 @@ model User {
   updated_at DateTime  @updatedAt
   account    Account[]
 
-  sessions Session[]
-  posts    Post[]
-  comments Comment[]
+  sessions     Session[]
+  posts        Post[]
+  comments     Comment[]
+  postLikes    PostLike[]
+  commentLikes CommentLike[]
 
   @@map("users")
 }
@@ -30,13 +32,14 @@ model Post {
   id           String   @id @default(uuid())
   author_id    String
   content      String
-  likes_amount Int
+  likes_amount Int?     @default(0)
   created_at   DateTime @default(now())
   updated_at   DateTime @updatedAt
 
   author User @relation(fields: [author_id], references: [id], onDelete: Cascade)
 
-  comments Comment[]
+  comments  Comment[]
+  postLikes PostLike[]
 
   @@index([author_id])
   @@map("posts")
@@ -47,12 +50,13 @@ model Comment {
   author_id    String
   post_id      String
   content      String
-  likes_amount Int
+  likes_amount Int?     @default(0)
   created_at   DateTime @default(now())
   updated_at   DateTime @updatedAt
 
-  author User @relation(fields: [author_id], references: [id], onDelete: Cascade)
-  post   Post @relation(fields: [post_id], references: [id])
+  author       User          @relation(fields: [author_id], references: [id], onDelete: Cascade)
+  post         Post          @relation(fields: [post_id], references: [id])
+  commentLikes CommentLike[]
 
   @@index([author_id])
   @@index([post_id])
@@ -77,6 +81,28 @@ model Account {
   @@unique([provider, provider_account_id])
   @@index([user_id])
   @@map("accounts")
+}
+
+model PostLike {
+  user_id    String
+  post_id    String
+  created_at DateTime @default(now())
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  post       Post     @relation(fields: [post_id], references: [id], onDelete: Cascade)
+
+  @@id([user_id, post_id])
+  @@map("posts_likes")
+}
+
+model CommentLike {
+  user_id    String
+  comment_id String
+  created_at DateTime @default(now())
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  comment    Comment  @relation(fields: [comment_id], references: [id], onDelete: Cascade)
+
+  @@id([user_id, comment_id])
+  @@map("comments_likes")
 }
 
 model Session {
