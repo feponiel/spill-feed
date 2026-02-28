@@ -50,6 +50,11 @@ export async function GET() {
     
     include: {
       author: true,
+      postLikes: {
+        where: {
+          user_id: session.user.id
+        },
+      },
       _count: {
         select: {
           postLikes: true,
@@ -59,5 +64,20 @@ export async function GET() {
     }
   })
 
-  return NextResponse.json(posts, { status: 200 })
+  return NextResponse.json(posts.map(post => ({
+    id: post.id,
+    author_id: post.author_id,
+    content: post.content,
+    created_at: post.created_at,
+    updated_at: post.updated_at,
+    comments_amount: post._count.comments,
+    likes_amount: post._count.postLikes,
+    is_liked: post.postLikes.length > 0,
+
+    author: {
+      name: post.author.name,
+      synthesis: post.author.synthesis,
+      avatar_url: post.author.avatar_url
+    }
+  })), { status: 200 })
 }

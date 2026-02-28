@@ -63,9 +63,9 @@ export async function DELETE() {
   await prisma.user.delete({
     where: {
       id: session.user.id
-    }
+    },
   })
 
-  return NextResponse.json(undefined, { status: 204 })
+  return new Response(null, { status: 204 })
 }
 

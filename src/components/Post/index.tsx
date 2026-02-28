@@ -12,6 +12,7 @@ import * as Collapsible from "@radix-ui/react-collapsible"
 import { EngagementPanel } from "./EngagementPanel"
 import { CommentSection } from "./CommentsSection"
 import { ContentWrapper } from "./ContentWrapper"
+import { api } from "@/lib/axios"
 
 interface Author {
   name: string
@@ -20,20 +21,22 @@ interface Author {
 }
 
 interface PostProps {
+  id: string
   author: Author
   content: string
   likesAmount: number
   commentsAmount: number
   publishedAt: Date
   updatedAt: Date
+  isLiked: boolean
   amITheAuthor: boolean
 }
 
-export function Post({ author, content, likesAmount, commentsAmount, publishedAt, updatedAt, amITheAuthor }: PostProps) {
+export function Post({ id, author, content, likesAmount, commentsAmount, publishedAt, updatedAt, isLiked, amITheAuthor }: PostProps) {
   const [postLikesAmount, setPostLikesAmount] = useState(likesAmount)
   const [postCommentsAmount, setPostCommentsAmount] = useState(commentsAmount)
   const [isCommentSectionOpen, setCommentSectionOpen] = useState(false)
-  const [isPostLiked, setPostLiked] = useState(false) // it'll come from a table in the db that makes the relation between the user id and the post id (Post Likes)
+  const [isPostLiked, setPostLiked] = useState(isLiked)
   const [isPostOptionsMenuOpen, setPostOptionsMenuOpen] = useState(false)
   const [isEditPostModalOpen, setEditPostModalOpen] = useState(false)
   const [isDeletePostModalOpen, setDeletePostModalOpen] = useState(false)
@@ -49,11 +52,15 @@ export function Post({ author, content, likesAmount, commentsAmount, publishedAt
     setDeletePostModalOpen(false)
   }
 
-  function handleLikePost() {
+  async function handleLikePost() {
     if (isPostLiked) {
+      await api.delete(`/posts/${id}/like`)
+
       setPostLikesAmount(prev => prev - 1)
       setPostLiked(false)
     } else {
+      await api.post(`/posts/${id}/like`)
+
       setPostLikesAmount(prev => prev + 1)
       setPostLiked(true)
     }

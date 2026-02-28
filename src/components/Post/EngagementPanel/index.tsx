@@ -16,14 +16,14 @@ export function EngagementPanel({ isPostLiked, likesAmount, commentsAmount, onLi
       <EngagementPanelDisplay>
         <span>
           <strong>{ likesAmount }</strong>
-          Likes
+          Like{ likesAmount !== 1 && "s" }
         </span>
 
         <Separator>•</Separator>
 
         <span>
           <strong>{ commentsAmount }</strong>
-          Comments
+          Comment{ commentsAmount !== 1 && "s" }
         </span>
       </EngagementPanelDisplay>
     </StyledEngagementPanel>

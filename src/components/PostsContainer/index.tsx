@@ -12,15 +12,15 @@ import { useAuthUser } from "@/hooks/useAuthUser"
 import { LoadingWheel } from "../LoadingWheel"
 
 type PostWithEssentialInfo = PostType & {
+  comments_amount: number
+  likes_amount: number
+  is_liked: boolean
+
   author: {
-    id: string
     name: string
     synthesis: string
     avatar_url: string
   }
-
-  comments: number
-  postLikes: number
 }
 
 export function PostsContainer() {
@@ -62,13 +62,15 @@ export function PostsContainer() {
           posts.length > 0 ? (
             posts.map(post => (
               <Post
+                id={ post.id }
                 author={ {name: post.author.name, synthesis: post.author.synthesis, avatar_url: post.author.avatar_url} }
                 content={ post.content }
-                likesAmount={ post.postLikes || 0 }
-                commentsAmount={ post.comments || 0 }
+                likesAmount={ post.likes_amount }
+                commentsAmount={ post.comments_amount }
                 publishedAt={ new Date(post.created_at) }
                 updatedAt={ new Date(post.updated_at) }
-                amITheAuthor={ authUser.id === post.author.id }
+                isLiked={ post.is_liked }
+                amITheAuthor={ authUser.id === post.author_id }
                 key={ post.id }
               />
             ))
