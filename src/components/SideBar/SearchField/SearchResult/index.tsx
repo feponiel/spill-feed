@@ -6,7 +6,7 @@ export function SearchResult() {
   function handleViewMoreResults() {}
   
   return (
-    <StyledSearchResult>
+    <StyledSearchResult id="search-results">
       <SearchResultContainer>
         <RadioGroup.Root defaultValue="users">
           <SearchResultHeader>

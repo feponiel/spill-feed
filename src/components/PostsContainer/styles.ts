@@ -1,9 +1,16 @@
 import styled, { css } from "styled-components";
 
 export const StyledPostsContainer = styled.div`
+  ${({ theme }) => css`
   width: 100%;
 
-  ${({ theme }) => css`
+  &.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20rem 0;
+  }
+
     > header {
       margin-bottom: ${theme.space[8]};
       padding-bottom: ${theme.space[4]};

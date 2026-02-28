@@ -4,10 +4,11 @@ import { EngagementPanelDisplay, Separator, StyledEngagementPanel } from "./styl
 interface EngagementPanelProps {
   isPostLiked: boolean
   likesAmount: number
+  commentsAmount: number
   onLikePost: () => void
 }
 
-export function EngagementPanel({ isPostLiked, likesAmount, onLikePost }: EngagementPanelProps) {
+export function EngagementPanel({ isPostLiked, likesAmount, commentsAmount, onLikePost }: EngagementPanelProps) {
   return (
     <StyledEngagementPanel>
       <PostActions onLikePost={ onLikePost } isPostLiked={ isPostLiked } />
@@ -21,7 +22,7 @@ export function EngagementPanel({ isPostLiked, likesAmount, onLikePost }: Engage
         <Separator>•</Separator>
 
         <span>
-          <strong>12</strong>
+          <strong>{ commentsAmount }</strong>
           Comments
         </span>
       </EngagementPanelDisplay>

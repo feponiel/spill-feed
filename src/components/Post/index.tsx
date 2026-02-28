@@ -23,19 +23,22 @@ interface PostProps {
   author: Author
   content: string
   likesAmount: number
+  commentsAmount: number
   publishedAt: Date
   updatedAt: Date
+  amITheAuthor: boolean
 }
 
-export function Post({ author, content, likesAmount, publishedAt, updatedAt }: PostProps) {
+export function Post({ author, content, likesAmount, commentsAmount, publishedAt, updatedAt, amITheAuthor }: PostProps) {
   const [postLikesAmount, setPostLikesAmount] = useState(likesAmount)
+  const [postCommentsAmount, setPostCommentsAmount] = useState(commentsAmount)
   const [isCommentSectionOpen, setCommentSectionOpen] = useState(false)
   const [isPostLiked, setPostLiked] = useState(false) // it'll come from a table in the db that makes the relation between the user id and the post id (Post Likes)
   const [isPostOptionsMenuOpen, setPostOptionsMenuOpen] = useState(false)
   const [isEditPostModalOpen, setEditPostModalOpen] = useState(false)
   const [isDeletePostModalOpen, setDeletePostModalOpen] = useState(false)
 
-  const isEdited = false //updatedAt > publishedAt
+  const isEdited = updatedAt > publishedAt
 
   const {
     formatedDate: postDateFormated,
@@ -81,6 +84,7 @@ export function Post({ author, content, likesAmount, publishedAt, updatedAt }: P
               <DotsThreeIcon size={24} />
             </PostOptionsMenuButton>
           }
+          amITheAuthor={ amITheAuthor }
           isOpen={ isPostOptionsMenuOpen }
           handleToggleMenu={ setPostOptionsMenuOpen }
           handleChooseEditOption={ () => setEditPostModalOpen(true) }
@@ -100,7 +104,7 @@ export function Post({ author, content, likesAmount, publishedAt, updatedAt }: P
       </Content>
 
       <Collapsible.Root open={ isCommentSectionOpen } onOpenChange={ setCommentSectionOpen }>
-        <EngagementPanel isPostLiked={ isPostLiked } likesAmount={ postLikesAmount } onLikePost={ handleLikePost } />
+        <EngagementPanel isPostLiked={ isPostLiked } likesAmount={ postLikesAmount } commentsAmount={ commentsAmount } onLikePost={ handleLikePost } />
 
         <CommentSection />
       </Collapsible.Root>

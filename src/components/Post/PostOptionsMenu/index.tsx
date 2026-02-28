@@ -6,23 +6,28 @@ import { ReactElement } from "react";
 interface PostOptionsMenuProps {
   trigger: ReactElement
   isOpen: boolean
+  amITheAuthor: boolean
   handleToggleMenu: (open: boolean) => void
   handleChooseEditOption: () => void
   handleChooseDeleteOption: () => void
 }
 
-export function PostOptionsMenu({ trigger, isOpen, handleToggleMenu, handleChooseEditOption, handleChooseDeleteOption }: PostOptionsMenuProps) {
+export function PostOptionsMenu({ trigger, isOpen, amITheAuthor, handleToggleMenu, handleChooseEditOption, handleChooseDeleteOption }: PostOptionsMenuProps) {
   return (
     <DropdownMenu trigger={ trigger } isOpen={ isOpen } onToggleOpen={ handleToggleMenu }>
-      <Dropdown.Item onClick={ handleChooseEditOption }>
-        <PencilIcon />
-        Edit Post
-      </Dropdown.Item>
+      { amITheAuthor && (
+        <>
+          <Dropdown.Item onClick={ handleChooseEditOption }>
+            <PencilIcon />
+            Edit Post
+          </Dropdown.Item>
 
-      <Dropdown.Item onClick={ handleChooseDeleteOption }>
-        <TrashIcon />
-        Delete Post
-      </Dropdown.Item>
+          <Dropdown.Item onClick={ handleChooseDeleteOption }>
+            <TrashIcon />
+            Delete Post
+          </Dropdown.Item>
+        </>
+      ) }
     </DropdownMenu>
   )
 }

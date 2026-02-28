@@ -1,54 +1,54 @@
 "use client"
 
 import { Post } from "@/components/Post"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { CreatePostButton, NoPostsMessage, StyledPostsContainer } from "./styles"
 import { PlusIcon } from "@phosphor-icons/react"
 import { CreatePostModal } from "@/components/CreatePostModal"
 import { Title } from "@/styles/global"
+import { Post as PostType } from "@prisma/client"
+import { api } from "@/lib/axios"
+import { useAuthUser } from "@/hooks/useAuthUser"
+import { LoadingWheel } from "../LoadingWheel"
 
-export function PostsContainer() {
-  const [isCreatePostModalOpen, setCreatePostModalOpen] = useState(false)
+type PostWithEssentialInfo = PostType & {
+  author: {
+    id: string
+    name: string
+    synthesis: string
+    avatar_url: string
+  }
 
-  let testPosts = [
-    {
-      author: { name: "Felipe Elias", synthesis: "Java Developer", avatar_url: "https://github.com/feponiel.png" },
-      content: "# teste H1\n ---\n## teste H2\n ---\n### teste H3\n ---\n#### teste H4\n ---\n##### teste H5\n ---\n###### teste H6\n ---\n texto normal \n\n --- \n[hyperlink](https://github.com/feponiel) X \n\n ---\n ![LUFFY](https://static0.cbrimages.com/wordpress/wp-content/uploads/2023/11/luffy-gear-5-sitting.jpg?w=1200&h=675&fit=crop)\n\n > block quoteeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\n\n `var inlineCode = 0` X\n\n *italic* X\n\n **bold** X\n\n - ulist item \n\n 1. olist item\n\n \n\n\n\n\n\n\n\n\n \n \n \n \n https://github.com\n aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa a a                                          a           a    a                                a",
-      likes: 10,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-
-    {
-      author: { name: "João Victor", synthesis: "Linux Specialist", avatar_url: "https://github.com/jhonnzz.png" },
-      content: `\`\`\`java
-String codeBlock = "I'm not a code block";
-bool isCodeBlock = true;
-
-if (isCodeBlock) {
-  codeBlock = "I'm a code block";
+  comments: number
+  postLikes: number
 }
 
-System.out.println(codeBlock);
-\`\`\`
-test`,
-      likes: 7,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-  ]
+export function PostsContainer() {
+  const { data: authUser, isLoading } = useAuthUser()
+  const [posts, setPosts] = useState<PostWithEssentialInfo[]>([])
+  const [isCreatePostModalOpen, setCreatePostModalOpen] = useState(false)
 
-  let posts: {
-    author: {
-        name: string;
-        synthesis: string;
-        avatar_url: string;
-    };
-    content: string;
-    likes: number;
-    createdAt: Date;
-    updatedAt: Date;
-  }[] = [] // simulating no posts
+  useEffect(() => {
+    async function fetchPosts() {
+      try {
+        const response = await api.get<PostWithEssentialInfo[]>("/posts")
+
+        setPosts(response.data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchPosts()
+  }, [])
+
+  if (isLoading || !authUser) {
+    return (
+      <StyledPostsContainer className="loading">
+        <LoadingWheel size="lg" />
+      </StyledPostsContainer>
+    )
+  }
 
   return (
     <StyledPostsContainer>
@@ -64,13 +64,16 @@ test`,
               <Post
                 author={ {name: post.author.name, synthesis: post.author.synthesis, avatar_url: post.author.avatar_url} }
                 content={ post.content }
-                likesAmount={ post.likes }
-                publishedAt={ post.createdAt }
-                updatedAt={ post.updatedAt }
+                likesAmount={ post.postLikes || 0 }
+                commentsAmount={ post.comments || 0 }
+                publishedAt={ new Date(post.created_at) }
+                updatedAt={ new Date(post.updated_at) }
+                amITheAuthor={ authUser.id === post.author.id }
+                key={ post.id }
               />
             ))
           ) : (
-            <NoPostsMessage>There are no posts here yet :(</NoPostsMessage>
+            <NoPostsMessage>There are no posts here :(</NoPostsMessage>
           )
         }
       </main>
