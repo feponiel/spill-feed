@@ -27,11 +27,9 @@ interface CreatePostModalProps {
 export function CreatePostModal({ isOpen, handleToggleOpen }: CreatePostModalProps) {
 
 
-  const { formState: { errors, isSubmitting }, handleSubmit, register, reset } = useForm<createPostFormData>({
+  const { formState: { errors, isSubmitting }, handleSubmit, register } = useForm<createPostFormData>({
     resolver: zodResolver(createPostFormSchema)
   })
-
-  const closeModal = () => handleToggleOpen(false)
 
   async function handleCreatePost(formData: createPostFormData) {
     const { content } = formData
@@ -40,8 +38,7 @@ export function CreatePostModal({ isOpen, handleToggleOpen }: CreatePostModalPro
       content,
     })
 
-    closeModal()
-    reset()
+    window.location.reload()
   }
 
   return (
