@@ -13,7 +13,7 @@ export function PostsContainer() {
   let posts = [
     {
       author: { name: "Felipe Elias", synthesis: "Java Developer", avatar_url: "https://github.com/feponiel.png" },
-      content: "Lorem ipsum dolor",
+      content: "# teste H1\n ---\n## teste H2\n ---\n### teste H3\n ---\n#### teste H4\n ---\n##### teste H5\n ---\n###### teste H6\n ---\n texto normal \n\n --- \n[hyperlink](https://github.com/feponiel) X \n\n ---\n ![LUFFY](https://static0.cbrimages.com/wordpress/wp-content/uploads/2023/11/luffy-gear-5-sitting.jpg?w=1200&h=675&fit=crop)\n\n > block quoteeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\n\n `var inlineCode = 0` X\n\n *italic* X\n\n **bold** X\n\n - ulist item \n\n 1. olist item\n\n \n\n\n\n\n\n\n\n\n \n \n \n \n https://github.com",
       likes: 10,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -21,7 +21,17 @@ export function PostsContainer() {
 
     {
       author: { name: "João Victor", synthesis: "Linux Specialist", avatar_url: "https://github.com/jhonnzz.png" },
-      content: "Sit amet consectetur adipiscing elit.",
+      content: `\`\`\`java
+String codeBlock = "I'm not a code block";
+bool isCodeBlock = true;
+
+if (isCodeBlock) {
+  codeBlock = "I'm a code block";
+}
+
+System.out.println(codeBlock);
+\`\`\`
+test`,
       likes: 7,
       createdAt: new Date(),
       updatedAt: new Date(),

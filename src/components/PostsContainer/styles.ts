@@ -1,6 +1,8 @@
 import styled, { css } from "styled-components";
 
 export const StyledPostsContainer = styled.div`
+  width: 100%;
+
   ${({ theme }) => css`
     > header {
       margin-bottom: ${theme.space[8]};

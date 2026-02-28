@@ -67,6 +67,7 @@ export const Content = styled.p`
     margin-top: ${theme.space[6]};
     line-height: ${theme.lineHeights.base};
     color: ${theme.colors.shade300};
+    word-break: break-word;
     font-size: ${theme.fontSizes.sm};
   `}
 `

@@ -11,6 +11,7 @@ import { EditPostModal } from "./EditPostModal"
 import * as Collapsible from "@radix-ui/react-collapsible"
 import { EngagementPanel } from "./EngagementPanel"
 import { CommentSection } from "./CommentsSection"
+import { ContentWrapper } from "./ContentWrapper"
 
 interface Author {
   name: string
@@ -94,7 +95,8 @@ export function Post({ author, content, likesAmount, publishedAt, updatedAt }: P
             Edited by the author
           </EditionWarn>
         )}
-        { content }
+        
+        <ContentWrapper>{ content }</ContentWrapper>
       </Content>
 
       <Collapsible.Root open={ isCommentSectionOpen } onOpenChange={ setCommentSectionOpen }>
