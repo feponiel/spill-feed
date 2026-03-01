@@ -1,13 +1,18 @@
 import { ActionConfirmModal } from "@/components/ActionConfirmModal";
+import { api } from "@/lib/axios";
 
 interface DeletePostModalProps {
   isOpen: boolean
+  postId: string
   handleToggleModal: (open: boolean) => void
+  handleDeletePost: () => void
 }
 
-export function DeletePostModal({ isOpen, handleToggleModal }: DeletePostModalProps) {
-  function handleDeletePost() {
+export function DeletePostModal({ isOpen, postId, handleToggleModal, handleDeletePost }: DeletePostModalProps) {
+  async function handleConfirmDeletion() {
+    await api.delete(`/posts/${postId}`)
 
+    handleDeletePost()
   }
 
   return (
@@ -17,7 +22,7 @@ export function DeletePostModal({ isOpen, handleToggleModal }: DeletePostModalPr
       confirmationText="Delete"
       isOpen={ isOpen }
       handleToggleModal={ handleToggleModal }
-      handleConfirm={ handleDeletePost }
+      handleConfirm={ handleConfirmDeletion }
     />
   )
 }

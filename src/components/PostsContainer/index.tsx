@@ -42,6 +42,10 @@ export function PostsContainer() {
     fetchPosts()
   }, [])
 
+  function handleDeletePost(postId: string) {
+    setPosts(prev => prev.filter(post => post.id !== postId))
+  }
+
   if (isLoading || !authUser) {
     return (
       <StyledPostsContainer className="loading">
@@ -71,6 +75,7 @@ export function PostsContainer() {
                 updatedAt={ new Date(post.updated_at) }
                 isLiked={ post.is_liked }
                 amITheAuthor={ authUser.id === post.author_id }
+                handleDelete={ () => handleDeletePost(post.id) }
                 key={ post.id }
               />
             ))

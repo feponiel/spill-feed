@@ -30,9 +30,10 @@ interface PostProps {
   updatedAt: Date
   isLiked: boolean
   amITheAuthor: boolean
+  handleDelete: () => void
 }
 
-export function Post({ id, author, content, likesAmount, commentsAmount, publishedAt, updatedAt, isLiked, amITheAuthor }: PostProps) {
+export function Post({ id, author, content, likesAmount, commentsAmount, publishedAt, updatedAt, isLiked, amITheAuthor, handleDelete }: PostProps) {
   const [postLikesAmount, setPostLikesAmount] = useState(likesAmount)
   const [postCommentsAmount, setPostCommentsAmount] = useState(commentsAmount)
   const [isCommentSectionOpen, setCommentSectionOpen] = useState(false)
@@ -48,10 +49,6 @@ export function Post({ id, author, content, likesAmount, commentsAmount, publish
     formatedDateRelativeToNow: postDateRelativeToNow 
   } = formatDate(publishedAt)
 
-  function handleDeletePost() {
-    setDeletePostModalOpen(false)
-  }
-
   async function handleLikePost() {
     if (isPostLiked) {
       await api.delete(`/posts/${id}/like`)
@@ -64,6 +61,11 @@ export function Post({ id, author, content, likesAmount, commentsAmount, publish
       setPostLikesAmount(prev => prev + 1)
       setPostLiked(true)
     }
+  }
+
+  function handleDeletePost() {
+    handleDelete()
+    setDeletePostModalOpen(false)
   }
 
   return (
@@ -117,7 +119,7 @@ export function Post({ id, author, content, likesAmount, commentsAmount, publish
       </Collapsible.Root>
 
       <EditPostModal defaultPostContentValue={ content } isOpen={ isEditPostModalOpen } handleToggleOpen={ setEditPostModalOpen } />
-      <DeletePostModal isOpen={ isDeletePostModalOpen } handleToggleModal={ () => setDeletePostModalOpen(false) } />
+      <DeletePostModal isOpen={ isDeletePostModalOpen } postId={id} handleToggleModal={ () => setDeletePostModalOpen(false) } handleDeletePost={ handleDeletePost } />
     </StyledPost>
   )
 }
