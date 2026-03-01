@@ -32,7 +32,7 @@ export function CreatePostModal({ isOpen, handleToggleOpen }: CreatePostModalPro
   async function handleCreatePost(formData: createPostFormData) {
     const { content } = formData
 
-    await api.post('/posts', {
+    const post = await api.post('/posts', {
       content,
     })
 

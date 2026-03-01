@@ -26,11 +26,31 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(null, { status: 422 })
   }
 
-  const post = await prisma.post.create({
-    data: {
-      author_id: author.id,
-      content,
+  const tags = [...new Set<string>(
+    content.match(/#(\w+)/g)?.map((tag: string) => tag.slice(1)) ?? []
+  )]
+
+  const post = await prisma.$transaction(async (transaction) => {
+    const post = await transaction.post.create({
+      data: {
+        author_id: author.id,
+        content,
+      }
+    })
+
+    for (const name of tags) {
+      const tag = await transaction.tag.upsert({
+        where: { name },
+        create: { name, references_count: 1 },
+        update: { references_count: { increment: 1 } }
+      })
+
+      await transaction.postTag.create({
+        data: { post_id: post.id, tag_id: tag.id }
+      })
     }
+
+    return post
   })
 
   return NextResponse.json(post, { status: 201 })

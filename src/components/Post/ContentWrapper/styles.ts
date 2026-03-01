@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styled, { css } from "styled-components";
 
 export const PostImage = styled.img`
@@ -122,5 +123,13 @@ export const PostBlockQuote = styled.blockquote`
       height: 100%;
       background: ${theme.colors.shade600};
     }
+  `}
+`
+
+export const Tag = styled(Link)`
+  ${({ theme }) => css`
+    color: ${theme.colors.accentColor};
+    text-decoration: none;
+    font-weight: ${theme.fontWeights.bold};
   `}
 `

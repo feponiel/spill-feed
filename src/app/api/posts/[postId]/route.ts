@@ -17,14 +17,59 @@ export async function PATCH(request: NextRequest, { params }: { params: { postId
     return NextResponse.json(null, { status: 422 })
   }
 
-  await prisma.post.update({
-    where: {
-      id: postId,
-      author_id: session.user.id,
-    },
+  const newTags = [...new Set<string>(
+    content.match(/#(\w+)/g)?.map((tag: string) => tag.slice(1)) ?? []
+  )]
 
-    data: {
-      content,
+  await prisma.$transaction(async (transaction) => {
+    await transaction.post.update({
+      where: {
+        id: postId,
+        author_id: session.user.id,
+      },
+      data: { content }
+    })
+
+    const currentPostTags = await transaction.postTag.findMany({
+      where: { post_id: postId },
+      include: { tag: true }
+    })
+
+    const currentTagNames = currentPostTags.map(pt => pt.tag.name)
+    const toDelete = currentTagNames.filter(name => !newTags.includes(name))
+    const toInsert = newTags.filter(name => !currentTagNames.includes(name))
+
+    if (toDelete.length > 0) {
+      await transaction.postTag.deleteMany({
+        where: {
+          post_id: postId,
+          tag: { name: { in: toDelete } }
+        }
+      })
+
+      await transaction.tag.updateMany({
+        where: { name: { in: toDelete } },
+        data: { references_count: { decrement: 1 } }
+      })
+
+      await transaction.tag.deleteMany({
+        where: {
+          name: { in: toDelete },
+          references_count: { lte: 0 }
+        }
+      })
+    }
+
+    for (const name of toInsert) {
+      const tag = await transaction.tag.upsert({
+        where: { name },
+        create: { name, references_count: 1 },
+        update: { references_count: { increment: 1 } }
+      })
+
+      await transaction.postTag.create({
+        data: { post_id: postId, tag_id: tag.id }
+      })
     }
   })
 
@@ -40,10 +85,33 @@ export async function DELETE(request: NextRequest, { params }: { params: { postI
     return NextResponse.json(null, { status: 401 })
   }
 
-  await prisma.post.delete({
-    where: {
-      id: postId,
-      author_id: session.user.id
+  await prisma.$transaction(async (transaction) => {
+    const currentPostTags = await transaction.postTag.findMany({
+      where: { post_id: postId },
+      include: { tag: true }
+    })
+
+    const tagNames = currentPostTags.map(pt => pt.tag.name)
+
+    await transaction.post.delete({
+      where: {
+        id: postId,
+        author_id: session.user.id
+      }
+    })
+
+    if (tagNames.length > 0) {
+      await transaction.tag.updateMany({
+        where: { name: { in: tagNames } },
+        data: { references_count: { decrement: 1 } }
+      })
+
+      await transaction.tag.deleteMany({
+        where: {
+          name: { in: tagNames },
+          references_count: { lte: 0 }
+        }
+      })
     }
   })
 

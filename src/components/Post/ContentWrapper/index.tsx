@@ -1,6 +1,6 @@
-import { ReactNode } from "react";
+import { ReactNode, Children } from "react";
 import ReactMarkdown from "react-markdown";
-import { PostBlockQuote, PostCode, PostH1, PostH2, PostH3, PostH4, PostH5, PostH6, PostHR, PostImage, PostLink, PostOL, PostPre, PostUL } from "./styles";
+import { PostBlockQuote, PostCode, PostH1, PostH2, PostH3, PostH4, PostH5, PostH6, PostHR, PostImage, PostLink, PostOL, PostPre, PostUL, Tag } from "./styles";
 import rehypeHighlight from "rehype-highlight"
 import "highlight.js/styles/androidstudio.css"
 
@@ -38,7 +38,25 @@ export function ContentWrapper({ children }: ContentWrapperProps) {
         h5: ({children}) => <PostH5>{children}</PostH5>,
         h6: ({children}) => <PostH6>{children}</PostH6>,
 
-        blockquote: ({children}) => <PostBlockQuote>{children}</PostBlockQuote>
+        blockquote: ({children}) => <PostBlockQuote>{children}</PostBlockQuote>,
+
+        p: ({ children }) => {
+          const processChildren = (kids: ReactNode): ReactNode => {
+            return Children.map(kids, (child) => {
+              if (typeof child !== "string") return child
+
+              return child.split(/(\s+)/).map((part, i) => {
+                if (/^#\w+/.test(part)) {
+                  const tag = part.slice(1)
+                  return <Tag key={i} href={`/posts?tag=${tag}`}>{part}</Tag>
+                }
+                return part
+              })
+            })
+          }
+
+          return <p>{processChildren(children)}</p>
+        },
       }}
     >
       { children?.toString() }

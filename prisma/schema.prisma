@@ -29,28 +29,29 @@ model User {
 }
 
 model Post {
-  id           String   @id @default(uuid())
-  author_id    String
-  content      String
-  created_at   DateTime @default(now())
-  updated_at   DateTime @updatedAt
+  id         String   @id @default(uuid())
+  author_id  String
+  content    String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   author User @relation(fields: [author_id], references: [id], onDelete: Cascade)
 
   comments  Comment[]
   postLikes PostLike[]
+  postTags  PostTag[]
 
   @@index([author_id])
   @@map("posts")
 }
 
 model Comment {
-  id           String   @id @default(uuid())
-  author_id    String
-  post_id      String
-  content      String
-  created_at   DateTime @default(now())
-  updated_at   DateTime @updatedAt
+  id         String   @id @default(uuid())
+  author_id  String
+  post_id    String
+  content    String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   author       User          @relation(fields: [author_id], references: [id], onDelete: Cascade)
   post         Post          @relation(fields: [post_id], references: [id])
@@ -101,6 +102,25 @@ model CommentLike {
 
   @@id([user_id, comment_id])
   @@map("comments_likes")
+}
+
+model Tag {
+  id               String    @id @default(cuid())
+  name             String    @unique
+  references_count Int       @default(0)
+  postTags         PostTag[]
+
+  @@map("tags")
+}
+
+model PostTag {
+  post_id String
+  tag_id  String
+  post    Post   @relation(fields: [post_id], references: [id], onDelete: Cascade)
+  tag     Tag    @relation(fields: [tag_id], references: [id])
+
+  @@id([post_id, tag_id])
+  @@map("posts_tags")
 }
 
 model Session {
