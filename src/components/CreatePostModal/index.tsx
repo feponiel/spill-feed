@@ -25,8 +25,6 @@ interface CreatePostModalProps {
 }
 
 export function CreatePostModal({ isOpen, handleToggleOpen }: CreatePostModalProps) {
-
-
   const { formState: { errors, isSubmitting }, handleSubmit, register } = useForm<createPostFormData>({
     resolver: zodResolver(createPostFormSchema)
   })

@@ -34,6 +34,8 @@ interface PostProps {
 }
 
 export function Post({ id, author, content, likesAmount, commentsAmount, publishedAt, updatedAt, isLiked, amITheAuthor, handleDelete }: PostProps) {
+  const [isEdited, setIsEdited] = useState(updatedAt > publishedAt)
+  const [postContent, setPostContent] = useState(content)
   const [postLikesAmount, setPostLikesAmount] = useState(likesAmount)
   const [postCommentsAmount, setPostCommentsAmount] = useState(commentsAmount)
   const [isCommentSectionOpen, setCommentSectionOpen] = useState(false)
@@ -41,8 +43,6 @@ export function Post({ id, author, content, likesAmount, commentsAmount, publish
   const [isPostOptionsMenuOpen, setPostOptionsMenuOpen] = useState(false)
   const [isEditPostModalOpen, setEditPostModalOpen] = useState(false)
   const [isDeletePostModalOpen, setDeletePostModalOpen] = useState(false)
-
-  const isEdited = updatedAt > publishedAt
 
   const {
     formatedDate: postDateFormated,
@@ -61,6 +61,12 @@ export function Post({ id, author, content, likesAmount, commentsAmount, publish
       setPostLikesAmount(prev => prev + 1)
       setPostLiked(true)
     }
+  }
+
+  function handleEditPost(newPostContent: string) {
+    setIsEdited(true)
+    setPostContent(newPostContent)
+    setEditPostModalOpen(false)
   }
 
   function handleDeletePost() {
@@ -109,7 +115,7 @@ export function Post({ id, author, content, likesAmount, commentsAmount, publish
           </EditionWarn>
         )}
         
-        <ContentWrapper>{ content }</ContentWrapper>
+        <ContentWrapper>{ postContent }</ContentWrapper>
       </Content>
 
       <Collapsible.Root open={ isCommentSectionOpen } onOpenChange={ setCommentSectionOpen }>
@@ -118,7 +124,7 @@ export function Post({ id, author, content, likesAmount, commentsAmount, publish
         <CommentSection />
       </Collapsible.Root>
 
-      <EditPostModal defaultPostContentValue={ content } isOpen={ isEditPostModalOpen } handleToggleOpen={ setEditPostModalOpen } />
+      <EditPostModal defaultPostContentValue={ postContent } isOpen={ isEditPostModalOpen } postId={id} handleToggleOpen={ setEditPostModalOpen } handleEditPost={ handleEditPost } />
       <DeletePostModal isOpen={ isDeletePostModalOpen } postId={id} handleToggleModal={ () => setDeletePostModalOpen(false) } handleDeletePost={ handleDeletePost } />
     </StyledPost>
   )
